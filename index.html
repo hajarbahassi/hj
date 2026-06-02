@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Mercedes-Benz - Auto Nejma Support</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* CONTAINER */
+.chat-container {
+    width: 430px;
+    height: 680px;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* HEADER PREMIUM */
+.header {
+    background: #0b0f1a;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.header img {
+    width: 28px;
+    height: 28px;
+}
+
+/* CHAT */
+.chat {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background: #ffffff;
+}
+
+/* MESSAGE */
+.msg {
+    margin: 8px;
+    padding: 10px;
+    border-radius: 12px;
+    max-width: 80%;
+    white-space: pre-line;
+}
+
+.user {
+    background: #2563eb;
+    color: white;
+    margin-left: auto;
+}
+
+.bot {
+    background: #eef0f4;
+    color: #111;
+    margin-right: auto;
+    border-left: 3px solid #111827;
+}
+
+/* SUGGESTIONS */
+.suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background: #fafafa;
+}
+
+.suggestion {
+    background: #e0e7ff;
+    color: #1e3a8a;
+    padding: 8px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* INPUT */
+.input-area {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    border: none;
+    background: #111827;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="chat-container">
+
+<!-- HEADER MERCEDES -->
+<div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/90/Mercedes-Logo.svg">
+    Mercedes-Benz | Auto Nejma Support
+</div>
+
+<div class="chat" id="chat"></div>
+
+<!-- SUGGESTIONS -->
+<div class="suggestions">
+<div class="suggestion" onclick="ask('Retard livraison véhicule')">🚚 Livraison</div>
+<div class="suggestion" onclick="ask('Problème moteur grave')">⚠️ Moteur</div>
+<div class="suggestion" onclick="ask('Problème freinage urgent')">🛑 Freins</div>
+<div class="suggestion" onclick="ask('Climatisation ne fonctionne pas')">❄️ Clim</div>
+<div class="suggestion" onclick="ask('Bruit dans le véhicule')">🔧 Bruit</div>
+<div class="suggestion" onclick="ask('Standard injoignable')">📞 Standard</div>
+<div class="suggestion" onclick="ask('Je veux un rendez-vous atelier')">📅 Rendez-vous</div>
+</div>
+
+<div class="input-area">
+<input type="text" id="input" placeholder="Décrivez votre problème...">
+<button onclick="send()">Envoyer</button>
+</div>
+
+</div>
+
+<script>
+
+// =========================
+// TECHNICIENS RÉALISTES
+// =========================
+function getExpert(msg) {
+
+    if (msg.includes("moteur")) {
+        return "👨‍🔧 Technicien Mercedes-Benz : Ingénieur Diagnostic Groupe Motopropulseur";
+    }
+
+    if (msg.includes("frein")) {
+        return "👨‍🔧 Technicien Mercedes-Benz : Spécialiste Systèmes de Sécurité & Freinage ABS";
+    }
+
+    if (msg.includes("clim")) {
+        return "👨‍🔧 Technicien Mercedes-Benz : Expert Thermique & Climatisation Digitale";
+    }
+
+    if (msg.includes("bruit")) {
+        return "👨‍🔧 Technicien Mercedes-Benz : Analyste NVH (Bruits & Vibrations)";
+    }
+
+    if (msg.includes("livraison")) {
+        return "📦 Agent Auto Nejma : Responsable Logistique Véhicules Premium";
+    }
+
+    if (msg.includes("standard")) {
+        return "📞 Agent Mercedes-Benz : Centre de Relation Client Premium";
+    }
+
+    return "👨‍💼 Conseiller Mercedes-Benz : Support Client Officiel";
+}
+
+// =========================
+// RÉPONSES NON RÉPÉTITIVES
+// =========================
+function botResponse(msg) {
+
+    msg = msg.toLowerCase();
+    let expert = getExpert(msg);
+
+    if (msg.includes("livraison")) {
+        return "📦 Mercedes-Benz Maroc\n\nNous comprenons votre attente concernant la livraison.\nVotre dossier est actuellement en traitement prioritaire dans notre centre logistique.\n\n" +
+        expert +
+        "\n\n📅 Un suivi de livraison peut être planifié si vous le souhaitez.";
+    }
+
+    if (msg.includes("moteur")) {
+        return "⚠️ Alerte technique détectée\n\nNous recommandons une inspection immédiate pour garantir la sécurité du véhicule.\n\n" +
+        expert +
+        "\n\n📅 Souhaitez-vous un rendez-vous atelier prioritaire ?";
+    }
+
+    if (msg.includes("frein")) {
+        return "🛑 Système de freinage\n\nNous prenons ce type de demande avec priorité maximale.\nUn contrôle complet est nécessaire.\n\n" +
+        expert +
+        "\n\n📅 Intervention atelier recommandée sous 24h.";
+    }
+
+    if (msg.includes("clim")) {
+        return "❄️ Climatisation Mercedes-Benz\n\nNous allons vérifier le système électronique de climatisation.\n\n" +
+        expert +
+        "\n\n📅 Rendez-vous diagnostic disponible.";
+    }
+
+    if (msg.includes("bruit")) {
+        return "🔧 Analyse sonore véhicule\n\nUn diagnostic NVH est nécessaire pour identifier la source du bruit.\n\n" +
+        expert;
+    }
+
+    if (msg.includes("standard")) {
+        return "📞 Centre Mercedes-Benz\n\nNous sommes désolés pour l’attente.\nUn agent vous rappellera dans les plus brefs délais.\n\n" +
+        expert;
+    }
+
+    if (msg.includes("rendez")) {
+        return "📅 Prise de rendez-vous Mercedes-Benz\n\nVeuillez préciser votre disponibilité (matin / après-midi).\nUn conseiller vous proposera un créneau atelier adapté.\n\n" +
+        expert;
+    }
+
+    return "Mercedes-Benz Support\n\nMerci pour votre message.\nUn conseiller spécialisé va analyser votre demande.\n\n" + expert;
+}
+
+// =========================
+// AFFICHAGE
+// =========================
+function addMessage(text, type) {
+    const div = document.createElement("div");
+    div.className = "msg " + type;
+    div.innerText = text;
+
+    const chat = document.getElementById("chat");
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+// =========================
+// SEND
+// =========================
+function send() {
+    const input = document.getElementById("input");
+    const text = input.value;
+    if (!text) return;
+
+    addMessage(text, "user");
+
+    setTimeout(() => {
+        addMessage(botResponse(text), "bot");
+    }, 500);
+
+    input.value = "";
+}
+
+// CLICK SUGGESTIONS
+function ask(text) {
+    addMessage(text, "user");
+
+    setTimeout(() => {
+        addMessage(botResponse(text), "bot");
+    }, 500);
+}
+
+// START
+window.onload = () => {
+    addMessage("Mercedes-Benz Service Client 👋\nComment pouvons-nous vous assister aujourd’hui ?", "bot");
+};
+
+</script>
+
+</body>
+</html>
